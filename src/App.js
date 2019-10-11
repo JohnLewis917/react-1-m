@@ -1,26 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react'
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+class App extends Component {
+  constructor (){
+    super ()
+    this.state = {
+      friends: [],
+      picture: " ",
+      name: " "
+    }
+  }
+  updatePicture(value){
+    this.setState({
+      picture: value
+    })
+  }
+  UpdateName(value){
+    this.setState({
+      name: value
+    })
+  }
+  addFriend (){
+    this.setState({
+      friends: [...this.state.friends, {name: this.state.name, picture: this.state.picture}],
+      name: "",
+      picture: ""
+    })
+  }
+
+  render (){
+    const friendsMap = this.state.friends.map(friend => {
+      return (
+        <div>
+          <img src={friend.picture} />
+          <span>{friend.name}</span>
+        </div>
+      )
+    })
+    return (
+      <div className="App">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Picture URL: <input value={this.state.picture} onChange={e => this.updatePicture(e.target.value)}/>
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+        <p>
+          Name: < input value={this.state.name} onChange={e => this.UpdateName(e.target.value)}/>
+        </p>
+        <button onClick={() => this.addFriend()}>Add Friend</button>
+        {friendsMap}
+      
+      </div>
+
+
+    )
+  }
 }
 
 export default App;
